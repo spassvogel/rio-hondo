@@ -1,7 +1,23 @@
 extends CharacterBody2D
 
+@export var base_speed = 100
+@export var increment_speed = 0.9
+@export var gravity = 30
+@export var jump_force = 900
+
 func _physics_process(delta):
-	velocity.x = 300
+	if !is_on_floor():
+		velocity.y += gravity
+	print(is_on_floor)
+	velocity.y = minf(velocity.y, 1000)
+
+	if (Input.is_action_just_pressed("jump")):
+		velocity.y = -jump_force
+
+	var direction = Input.get_axis("move_left", "move_right")
+	velocity.x += base_speed * direction
+	velocity.x *= increment_speed
+
 	move_and_slide()
 
 #
