@@ -8,6 +8,8 @@ enum Direction { LEFT, RIGHT }
 @onready var idle_timer = $IdleTimer
 @onready var running_timer = $RunningTimer
 @onready var run_cooldown_timer = $RunCooldownTimer
+@onready var is_running_label = $"../Debug/is_running"
+
 
 @export var has_gun = true
 
@@ -17,9 +19,17 @@ enum Direction { LEFT, RIGHT }
 @export var gravity = 30
 @export var jump_force = 900
 
+# debug shit
+@onready var switching_direction_label = $"../Debug/switching_direction"
+@onready var switching_while_running_label = $"../Debug/switching_while_running"
+@onready var run_cooldown_label = $"../Debug/run_cooldown"
+
+
 var facing: Direction = Direction.RIGHT
 var is_running = false
 var direction = 0
+var switching_while_running = false
+var run_cooldown = false
 
 func _ready():
 	animation_tree.active = true
@@ -39,6 +49,7 @@ func _process(_delta):
 	
 func _physics_process(_delta):
 	if !is_on_floor():
+		# fall down
 		velocity.y += gravity
 
 	velocity.y = minf(velocity.y, 1000)
@@ -46,7 +57,9 @@ func _physics_process(_delta):
 	#if (Input.is_action_just_pressed("jump")):
 		#velocity.y = -jump_force
 
-	if (run_cooldown_timer.time_left == 0):
+	#var can_change_direction = !switching_while_running
+	var can_change_direction = true
+	if (can_change_direction):
 		direction = Input.get_axis("move_left", "move_right")
 	
 	var switching_direction = false
@@ -58,14 +71,19 @@ func _physics_process(_delta):
 		facing = Direction.RIGHT
 		switching_direction = true
 	
-	if (is_running && switching_direction):
-		run_cooldown_timer.start()
+	#if (is_running && switching_direction):
+		#switching_while_running = true
+	if (is_running && !run_cooldown && (abs(direction) == 0)):
+		# ending the run cooldown animation sets this to false again
+		is_running = false
+		run_cooldown = true
+		print('cooldown animation started', abs(direction) )
 		
-	var standing_still = abs(direction) == 0 && run_cooldown_timer.time_left == 0
+	var standing_still = abs(direction) == 0
 
-	if (switching_direction && is_running): 
+	if (is_running): 
 		running_timer.stop()
-		print('switching')
+		#print('switching')
 
 	if (!standing_still && !is_running && running_timer.time_left == 0):
 		# if walking we start a timer to start running after a specified amount of time
@@ -86,25 +104,33 @@ func _physics_process(_delta):
 		speed = running_speed
 	velocity.x = speed * direction
 	
-	if (standing_still):
-		print('standing still')
+	if (run_cooldown):
+		animation_tree["parameters/conditions/switching"] = true
+		
+	elif (standing_still):
+		#print('standing still')
 		is_running = false
 		animation_tree["parameters/conditions/standing"] = true
 		animation_tree["parameters/conditions/walking"] = false
 		animation_tree["parameters/conditions/running"] = false
 		#animation_tree.get("parameters/playback").travel("una-run-right-windup")
 	else:
-		print('not standing still')
+		#print('not standing still')
 		animation_tree["parameters/conditions/standing"] = false
 		animation_tree["parameters/conditions/walking"] = !is_running
 		animation_tree["parameters/conditions/running"] = is_running
-		animation_tree["parameters/conditions/switching"] = switching_direction
+		animation_tree["parameters/conditions/switching"] = false
 		animation_tree["parameters/conditions/idleing"] = false
 		#animation_tree.get("parameters/playback").travel("una-idle")
 
 	move_and_slide()
-	
 
+	# inform debug overlay
+	switching_direction_label.text = "switching_direction:" + str(switching_direction)
+	switching_while_running_label.text = "switching_while_running:" + str(switching_while_running)
+	run_cooldown_label.text = "run_cooldown:" + str(run_cooldown)
+	is_running_label.text = "is_running:" + str(is_running)
+	
 func _on_idle_timer_timeout():
 	animation_tree["parameters/conditions/idleing"] = true
 	await animation_tree.animation_finished
@@ -114,6 +140,7 @@ func _on_idle_timer_timeout():
 
 func _on_running_timer_timeout():
 	# moves from walking to running
+	print('running cooldown timeout, we start running now')
 	is_running = true
 
 
@@ -121,3 +148,10 @@ func _on_run_cooldown_timer_timeout():
 	# the grace period where user can change direction but still keep
 	# runninng is now expired
 	pass
+	
+func _on_run_turn_finished():
+	print("finished turning..")
+	run_cooldown = false
+	is_running = false
+	#animation_tree["parameters/conditions/standing"] = true
+	animation_tree.get("parameters/playback").travel("una-stand")

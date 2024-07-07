@@ -6,7 +6,7 @@
 size = Vector2(1000, 150)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bbddf"]
-size = Vector2(1001, 154)
+size = Vector2(1276, 154)
 
 [node name="World" type="Node2D"]
 
@@ -14,13 +14,43 @@ size = Vector2(1001, 154)
 
 [node name="MeshInstance2D" type="MeshInstance2D" parent="Platform"]
 modulate = Color(1, 0.0980392, 1, 1)
-position = Vector2(774, 652)
+position = Vector2(636, 652)
+scale = Vector2(1.276, 1)
 mesh = SubResource("QuadMesh_vbs1k")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Platform"]
-position = Vector2(774.5, 654)
+position = Vector2(637, 654)
 shape = SubResource("RectangleShape2D_bbddf")
 
 [node name="Kyle" parent="." instance=ExtResource("2_qwpgf")]
-position = Vector2(742, 475.02)
+position = Vector2(70, 515.02)
 scale = Vector2(3, 3)
+
+[node name="Debug" type="CanvasLayer" parent="."]
+
+[node name="switching_direction" type="Label" parent="Debug"]
+offset_left = 4.0
+offset_right = 61.0
+offset_bottom = 23.0
+text = "switching_direction"
+
+[node name="switching_while_running" type="Label" parent="Debug"]
+offset_left = 4.0
+offset_top = 27.0
+offset_right = 194.0
+offset_bottom = 50.0
+text = "switching_while_running"
+
+[node name="is_running" type="Label" parent="Debug"]
+offset_left = 4.0
+offset_top = 80.0
+offset_right = 194.0
+offset_bottom = 103.0
+text = "is_running"
+
+[node name="run_cooldown" type="Label" parent="Debug"]
+offset_left = 4.0
+offset_top = 55.0
+offset_right = 194.0
+offset_bottom = 78.0
+text = "run_cooldown"
