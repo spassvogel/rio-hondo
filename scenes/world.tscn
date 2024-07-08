@@ -25,10 +25,6 @@ shape = SubResource("RectangleShape2D_bbddf")
 [node name="Kyle" parent="." instance=ExtResource("2_qwpgf")]
 position = Vector2(70, 515.02)
 scale = Vector2(3, 3)
-walking_speed = null
-running_speed = null
-gravity = null
-jump_force = null
 
 [node name="Debug" type="CanvasLayer" parent="."]
 

@@ -1,4 +1,4 @@
-extends CharacterBody2D
+xtends CharacterBody2D
 
 @export var base_speed = 100
 @export var increment_speed = 0.9

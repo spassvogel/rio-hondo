@@ -29,6 +29,7 @@ var facing: Direction = Direction.RIGHT
 var is_running = false
 var direction = 0
 var switching_while_running = false
+var switching_direction = false # is switching direction playing? for both walk and run
 var run_cooldown = false
 
 func _ready():
@@ -70,7 +71,10 @@ func _physics_process(_delta):
 	if (direction > 0 && facing == Direction.LEFT):
 		facing = Direction.RIGHT
 		just_switched_direction = true
-		
+	
+	if (just_switched_direction): 
+		switching_direction = true
+	
 	#if (is_running && just_switched_direction):
 		#switching_while_running = true
 	if (is_running && !run_cooldown && (abs(direction) == 0)):
