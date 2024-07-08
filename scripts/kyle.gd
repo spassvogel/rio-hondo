@@ -62,16 +62,16 @@ func _physics_process(_delta):
 	if (can_change_direction):
 		direction = Input.get_axis("move_left", "move_right")
 	
-	var switching_direction = false
+	var just_switched_direction = false # switched direction this frame!
 
 	if (direction < 0 && facing == Direction.RIGHT):
 		facing = Direction.LEFT
-		switching_direction = true
+		just_switched_direction = true
 	if (direction > 0 && facing == Direction.LEFT):
 		facing = Direction.RIGHT
-		switching_direction = true
-	
-	#if (is_running && switching_direction):
+		just_switched_direction = true
+		
+	#if (is_running && just_switched_direction):
 		#switching_while_running = true
 	if (is_running && !run_cooldown && (abs(direction) == 0)):
 		# ending the run cooldown animation sets this to false again
@@ -89,6 +89,8 @@ func _physics_process(_delta):
 		# if walking we start a timer to start running after a specified amount of time
 		running_timer.start()
 
+	if (just_switched_direction || standing_still):
+		running_timer.stop()
 	
 	# start or stop idle timer	
 	if (!standing_still):
