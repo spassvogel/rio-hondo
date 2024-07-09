@@ -28,29 +28,36 @@ scale = Vector2(3, 3)
 
 [node name="Debug" type="CanvasLayer" parent="."]
 
+[node name="is_walking" type="Label" parent="Debug"]
+offset_left = 4.0
+offset_right = 154.0
+offset_bottom = 23.0
+text = "is_walking"
+
 [node name="switching_direction" type="Label" parent="Debug"]
 offset_left = 4.0
-offset_right = 61.0
-offset_bottom = 23.0
+offset_top = 25.0
+offset_right = 154.0
+offset_bottom = 48.0
 text = "switching_direction"
 
 [node name="switching_while_running" type="Label" parent="Debug"]
 offset_left = 4.0
-offset_top = 27.0
+offset_top = 52.0
 offset_right = 194.0
-offset_bottom = 50.0
+offset_bottom = 75.0
 text = "switching_while_running"
 
 [node name="is_running" type="Label" parent="Debug"]
 offset_left = 4.0
-offset_top = 80.0
+offset_top = 105.0
 offset_right = 194.0
-offset_bottom = 103.0
+offset_bottom = 128.0
 text = "is_running"
 
 [node name="run_cooldown" type="Label" parent="Debug"]
 offset_left = 4.0
-offset_top = 55.0
+offset_top = 80.0
 offset_right = 194.0
-offset_bottom = 78.0
+offset_bottom = 103.0
 text = "run_cooldown"
