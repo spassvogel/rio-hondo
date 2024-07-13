@@ -1,4 +1,4 @@
-[gd_scene load_steps=147 format=3 uid="uid://bos8v5gwvoq2r"]
+[gd_scene load_steps=153 format=3 uid="uid://bos8v5gwvoq2r"]
 
 [ext_resource type="Script" path="res://scripts/kyle.gd" id="1_4d37j"]
 [ext_resource type="Texture2D" uid="uid://bnxtb8ne7y58j" path="res://images/kyle/kyle-walk-unarmed.png" id="1_tphd5"]
@@ -13,10 +13,10 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pgamx"]
 size = Vector2(20, 47)
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_b8vdm"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_i0ndv"]
 animation = &"una-idle"
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_i0ndv"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_b8vdm"]
 animation = &"una-idle"
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_cmyf7"]
@@ -25,8 +25,14 @@ animation = &"una-run-turn"
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_1bcki"]
 animation = &"una-run-loop"
 
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_5oiu3"]
+animation = &"una-run-loop"
+
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_1xsnq"]
 animation = &"una-run-left-windup"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_l2bga"]
+animation = &"una-run-windup"
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_d8jf2"]
 animation = &"una-stand"
@@ -37,10 +43,10 @@ animation = &"una-stand-turn"
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_6fk7a"]
 animation = &"una-stand"
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_tuuni"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_adbjf"]
 animation = &"una-walk"
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_adbjf"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_tuuni"]
 animation = &"una-walk"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ks1ac"]
@@ -115,31 +121,49 @@ advance_condition = &"is_walking"
 switch_mode = 2
 advance_mode = 2
 
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_nko6i"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_xkvlr"]
+advance_mode = 2
+advance_condition = &"is_running"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_mgf86"]
+advance_mode = 2
+advance_condition = &"is_standing"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_reg6m"]
+switch_mode = 2
+advance_mode = 2
+
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_i8mqb"]
 states/End/position = Vector2(922.5, 229.589)
 states/Start/position = Vector2(86.25, 259.124)
-states/una-idle/node = SubResource("AnimationNodeAnimation_i0ndv")
-states/una-idle/position = Vector2(383.724, 603.843)
-"states/una-idle 2/node" = SubResource("AnimationNodeAnimation_b8vdm")
-"states/una-idle 2/position" = Vector2(580.424, 255.08)
+states/una-idle/node = SubResource("AnimationNodeAnimation_b8vdm")
+states/una-idle/position = Vector2(580.424, 255.08)
+"states/una-idle old/node" = SubResource("AnimationNodeAnimation_i0ndv")
+"states/una-idle old/position" = Vector2(383.224, 603.124)
 states/una-run-cooldown/node = SubResource("AnimationNodeAnimation_cmyf7")
 states/una-run-cooldown/position = Vector2(276.76, 885.143)
-states/una-run-loop/node = SubResource("AnimationNodeAnimation_1bcki")
-states/una-run-loop/position = Vector2(427.425, 758.592)
-states/una-run-windup/node = SubResource("AnimationNodeAnimation_1xsnq")
-states/una-run-windup/position = Vector2(134.224, 758.53)
+states/una-run-loop/node = SubResource("AnimationNodeAnimation_5oiu3")
+states/una-run-loop/position = Vector2(644.659, 419.697)
+"states/una-run-loop 2 2/node" = SubResource("AnimationNodeAnimation_1bcki")
+"states/una-run-loop 2 2/position" = Vector2(427.425, 758.592)
+states/una-run-windup/node = SubResource("AnimationNodeAnimation_l2bga")
+states/una-run-windup/position = Vector2(427.517, 419.364)
+"states/una-run-windup 2 2/node" = SubResource("AnimationNodeAnimation_1xsnq")
+"states/una-run-windup 2 2/position" = Vector2(134.224, 758.53)
 states/una-stand/node = SubResource("AnimationNodeAnimation_6fk7a")
 states/una-stand/position = Vector2(133.974, 602.405)
 "states/una-stand 2/node" = SubResource("AnimationNodeAnimation_d8jf2")
 "states/una-stand 2/position" = Vector2(304.855, 259.328)
 states/una-stand-turn/node = SubResource("AnimationNodeAnimation_68flx")
-states/una-stand-turn/position = Vector2(305.612, 134.032)
-states/una-walk/node = SubResource("AnimationNodeAnimation_adbjf")
-states/una-walk/position = Vector2(-62.266, 758.842)
-"states/una-walk 2/node" = SubResource("AnimationNodeAnimation_tuuni")
-"states/una-walk 2/position" = Vector2(304.855, 385.532)
-transitions = ["una-run-loop", "una-run-cooldown", SubResource("AnimationNodeStateMachineTransition_ks1ac"), "una-run-windup", "una-run-loop", SubResource("AnimationNodeStateMachineTransition_utotv"), "una-run-windup", "una-run-cooldown", SubResource("AnimationNodeStateMachineTransition_yjn0y"), "Start", "una-stand 2", SubResource("AnimationNodeStateMachineTransition_8jcyb"), "una-stand 2", "una-walk 2", SubResource("AnimationNodeStateMachineTransition_uttfa"), "una-walk 2", "una-stand 2", SubResource("AnimationNodeStateMachineTransition_vwrci"), "una-stand 2", "una-stand-turn", SubResource("AnimationNodeStateMachineTransition_xljgq"), "una-stand-turn", "una-stand 2", SubResource("AnimationNodeStateMachineTransition_dcoih"), "una-stand", "una-idle", SubResource("AnimationNodeStateMachineTransition_38hdy"), "una-idle", "una-stand", SubResource("AnimationNodeStateMachineTransition_38icg"), "una-walk", "una-run-windup", SubResource("AnimationNodeStateMachineTransition_i10lg"), "una-idle", "una-walk", SubResource("AnimationNodeStateMachineTransition_hi5jm"), "una-walk", "una-stand", SubResource("AnimationNodeStateMachineTransition_skghl"), "una-run-windup", "una-stand", SubResource("AnimationNodeStateMachineTransition_nq5k1"), "una-stand", "una-walk", SubResource("AnimationNodeStateMachineTransition_cft66"), "una-stand 2", "una-idle 2", SubResource("AnimationNodeStateMachineTransition_ogd8p"), "una-idle 2", "una-walk 2", SubResource("AnimationNodeStateMachineTransition_678q0"), "una-idle 2", "una-stand 2", SubResource("AnimationNodeStateMachineTransition_fowgl")]
-graph_offset = Vector2(-80.5759, 123.601)
+states/una-stand-turn/position = Vector2(179.484, 138.032)
+states/una-walk/node = SubResource("AnimationNodeAnimation_tuuni")
+states/una-walk/position = Vector2(178.92, 419.032)
+"states/una-walk 2 2/node" = SubResource("AnimationNodeAnimation_adbjf")
+"states/una-walk 2 2/position" = Vector2(-62.266, 758.842)
+transitions = ["una-run-loop 2 2", "una-run-cooldown", SubResource("AnimationNodeStateMachineTransition_ks1ac"), "una-run-windup 2 2", "una-run-loop 2 2", SubResource("AnimationNodeStateMachineTransition_utotv"), "una-run-windup 2 2", "una-run-cooldown", SubResource("AnimationNodeStateMachineTransition_yjn0y"), "Start", "una-stand 2", SubResource("AnimationNodeStateMachineTransition_8jcyb"), "una-stand 2", "una-walk", SubResource("AnimationNodeStateMachineTransition_uttfa"), "una-walk", "una-stand 2", SubResource("AnimationNodeStateMachineTransition_vwrci"), "una-stand 2", "una-stand-turn", SubResource("AnimationNodeStateMachineTransition_xljgq"), "una-stand-turn", "una-stand 2", SubResource("AnimationNodeStateMachineTransition_dcoih"), "una-stand", "una-idle old", SubResource("AnimationNodeStateMachineTransition_38hdy"), "una-idle old", "una-stand", SubResource("AnimationNodeStateMachineTransition_38icg"), "una-walk 2 2", "una-run-windup 2 2", SubResource("AnimationNodeStateMachineTransition_i10lg"), "una-idle old", "una-walk 2 2", SubResource("AnimationNodeStateMachineTransition_hi5jm"), "una-walk 2 2", "una-stand", SubResource("AnimationNodeStateMachineTransition_skghl"), "una-run-windup 2 2", "una-stand", SubResource("AnimationNodeStateMachineTransition_nq5k1"), "una-stand", "una-walk 2 2", SubResource("AnimationNodeStateMachineTransition_cft66"), "una-stand 2", "una-idle", SubResource("AnimationNodeStateMachineTransition_ogd8p"), "una-idle", "una-walk", SubResource("AnimationNodeStateMachineTransition_678q0"), "una-idle", "una-stand 2", SubResource("AnimationNodeStateMachineTransition_fowgl"), "una-walk", "una-stand-turn", SubResource("AnimationNodeStateMachineTransition_nko6i"), "una-walk", "una-run-windup", SubResource("AnimationNodeStateMachineTransition_xkvlr"), "una-run-windup", "una-stand 2", SubResource("AnimationNodeStateMachineTransition_mgf86"), "una-run-windup", "una-run-loop", SubResource("AnimationNodeStateMachineTransition_reg6m")]
+graph_offset = Vector2(70.4741, 184.329)
 
 [sub_resource type="Animation" id="Animation_cw2qq"]
 length = 0.001
@@ -166,18 +190,6 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [&"gun-turn"]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("Node2D/AnimatedSprite2D:flip_h")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
 }
 
 [sub_resource type="Animation" id="Animation_its7s"]
@@ -442,28 +454,19 @@ tracks/1/keys = {
 "update": 1,
 "values": [0, 1, 2, 3, 3, 2, 1, 0]
 }
-tracks/2/type = "value"
+tracks/2/type = "method"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("Node2D/AnimatedSprite2D:flip_h")
+tracks/2/path = NodePath(".")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.4, 0.8),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 1,
-"values": [false, true, true]
-}
-tracks/3/type = "method"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath(".")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0.8),
-"transitions": PackedFloat32Array(1),
+"times": PackedFloat32Array(0.4, 0.7),
+"transitions": PackedFloat32Array(1, 1),
 "values": [{
+"args": [],
+"method": &"_on_flip"
+}, {
 "args": [],
 "method": &"_on_stand_turn_finished"
 }]
@@ -1237,6 +1240,7 @@ root_node = NodePath("../..")
 tree_root = SubResource("AnimationNodeStateMachine_i8mqb")
 anim_player = NodePath("../AnimationPlayer")
 parameters/conditions/idleing = false
+parameters/conditions/is_running = false
 parameters/conditions/is_standing = false
 parameters/conditions/is_walking = false
 parameters/conditions/running = false

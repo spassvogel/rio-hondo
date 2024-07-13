@@ -135,7 +135,7 @@ func _physics_process(_delta):
 
 	if (!switching_direction):
 		velocity.x = speed * direction
-		animation_sprite.flip_h = facing == Direction.LEFT
+
 
 	#if (run_cooldown):
 		#animation_tree["parameters/conditions/switching"] = true
@@ -166,7 +166,7 @@ func _physics_process(_delta):
 	is_running_label.text = "is_running:" + str(is_running)
 	
 func _on_idle_timer_timeout():
-	pass
+	state_machine.travel("una-idle")
 	#animation_tree["parameters/conditions/idleing"] = true
 	#await animation_tree.animation_finished
 	#animation_tree["parameters/conditions/idleing"] = false
@@ -176,7 +176,7 @@ func _on_idle_timer_timeout():
 func _on_running_timer_timeout():
 	# moves from walking to running
 	print('running cooldown timeout, we start running now')
-	#is_running = true
+	is_running = true
 
 
 func _on_run_cooldown_timer_timeout():
@@ -191,14 +191,19 @@ func _on_run_turn_finished():
 	#animation_tree["parameters/conditions/standing"] = true
 	#animation_tree.get("parameters/playback").travel("una-stand")
 
-func _on_stand_turn_finished():
-	print("finished stand turning..")
-	switching_direction = false
-
+func _on_flip():
 	if (facing == Direction.RIGHT):
 		facing = Direction.LEFT
 	elif (facing == Direction.LEFT):
 		facing = Direction.RIGHT
+
+	animation_sprite.flip_h = facing == Direction.LEFT
+
+func _on_stand_turn_finished():
+	print("finished stand turning..")
+	switching_direction = false
+
+
 
 
 	#animation_tree["parameters/conditions/standing"] = true
