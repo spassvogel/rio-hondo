@@ -90,8 +90,12 @@ func _physics_process(_delta):
 		just_switched_direction = true
 	
 	if (just_switched_direction):
-		state_machine.travel("una-stand-turn")
 		switching_direction = true
+		if (self.is_running):
+			state_machine.travel("una-run-turn")
+		else:
+			state_machine.travel("una-stand-turn")
+			print('running turning' +  str(self.is_running))
 	
 	#if (is_running && just_switched_direction):
 		#switching_while_running = true
@@ -99,16 +103,24 @@ func _physics_process(_delta):
 		# ending the run cooldown animation sets this to false again
 		self.is_running = false
 		run_cooldown = true
-		print('cooldown animation started', abs(direction) )
+		#print('cooldown animation started', abs(direction) )
 		
 	var standing_still = abs(direction) == 0 && !switching_direction
 
 	if (!standing_still):
+		#print('starting walking')
 		self.is_walking = true
 		self.is_standing = false
+		var current_node = state_machine.get_current_node()
+
+		if (current_node == 'una-idle'):
+			# abort the idle animation immediately
+			state_machine.next()
+
 	else:
+		#print("stopped running here")
 		self.is_walking = false
-		self.is_running = false
+		#self.is_running = false
 		self.is_standing = true
 
 	if (is_running): 
@@ -140,6 +152,9 @@ func _physics_process(_delta):
 
 	if (!switching_direction):
 		velocity.x = speed * direction
+
+	if (Input.is_action_just_pressed("idle")):
+		state_machine.travel("una-idle")
 
 
 	#if (run_cooldown):
@@ -180,8 +195,8 @@ func _on_idle_timer_timeout():
 
 func _on_running_timer_timeout():
 	# moves from walking to running
-	print('running cooldown timeout, we start running now')
 	self.is_running = true
+	self.is_walking = false
 
 
 func _on_run_cooldown_timer_timeout():
@@ -190,11 +205,10 @@ func _on_run_cooldown_timer_timeout():
 	pass
 	
 func _on_run_turn_finished():
-	print("finished turning..")
+	#print("finished turning..")
 	run_cooldown = false
-	self.is_running = false
-	#animation_tree["parameters/conditions/standing"] = true
-	#animation_tree.get("parameters/playback").travel("una-stand")
+	_on_flip()
+	switching_direction = false
 
 func _on_flip():
 	if (facing == Direction.RIGHT):
